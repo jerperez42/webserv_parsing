@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:29:48 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/17 10:36:00 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:38:10 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ std::string	BlockSimpleConfig::getDirectiveOutput(std::string directive_name, st
 		io_it->second.end();
 	std::map<std::string, std::string>::const_iterator	it = \
 		io_it->second.find(input);
-	if (io_it == io_it_end)
+	if (it_end == it)
 		return ("");
 	return (it->second);
 }
