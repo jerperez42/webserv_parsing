@@ -6,7 +6,7 @@
 #    By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/06 10:28:10 by jerperez          #+#    #+#              #
-#    Updated: 2024/09/09 16:06:03 by jerperez         ###   ########.fr        #
+#    Updated: 2024/09/13 11:24:53 by jerperez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,11 @@ SRCS	=	main.cpp\
 			BlockDirective.cpp\
 			Directive.cpp\
 			InvalidDirective.cpp\
-			unquote.cpp
+			unquote.cpp\
+			server_config.cpp\
+			ServerConfig.cpp\
+			BlockSimpleConfig.cpp\
+			LocationConfig.cpp\
 
 OBJ_DIR	=	obj
 

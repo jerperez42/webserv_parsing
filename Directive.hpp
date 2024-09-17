@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:31:53 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/06 16:25:08 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:25:22 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 
 class Directive
 {
+	public:
+		typedef std::deque<std::string>	args_t;
 	private:
 		Directive(void) : _type(PR_DIR_TYPE_SIMPLE) {};
 	protected:
 		const int						_type;
-		std::deque<std::string>			_args;
+		args_t							_args;
 		Directive*						_context;
 		Directive(int type, std::deque<std::string> args, Directive* context);
 		Directive(int type, std::deque<std::string> args);

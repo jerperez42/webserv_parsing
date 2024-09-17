@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 17:31:53 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/06 13:32:46 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:26:34 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 
 class BlockDirective : public Directive
 {
+	public:
+		typedef std::deque<Directive*>	instructions_t;
 	private:
-		std::deque<Directive*>	_instructions;
-		bool					_block_opened;
+		instructions_t	_instructions;
+		bool			_block_opened;
 		
 	public:
 		// BlockDirective(int type, std::deque<std::string> args, std::deque<Directive*> instructions, Directive *context);
