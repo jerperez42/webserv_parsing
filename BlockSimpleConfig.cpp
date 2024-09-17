@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:29:48 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/13 15:44:51 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:36:00 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,19 @@
 // 		bool		inDirectives(std::string);
 // 		std::string getDirectiveParameter(std::string, std::string);
 // 		bool		inDirectiveParameters(std::string, std::string);
-// 		bool		addDirective(Directive*);
+// 		bool		_addDirective(Directive*);
 // };
 
 bool	BlockSimpleConfig::inDirectives(std::string directive_name)
 {
 	return (this->_directive_parameters.end() != \
 		this->_directive_parameters.find(directive_name));
+}
+
+bool	BlockSimpleConfig::inIODirectives(std::string directive_name)
+{
+	return (this->_io_directive_parameters.end() != \
+		this->_io_directive_parameters.find(directive_name));
 }
 
 std::string	BlockSimpleConfig::getDirectiveParameter(std::string directive_name)
@@ -48,13 +54,30 @@ std::string	BlockSimpleConfig::getDirectiveParameter(std::string directive_name)
 	return (it->second.front());
 }
 
+std::string	BlockSimpleConfig::getDirectiveOutput(std::string directive_name, std::string input)
+{
+	_io_directive_parameters_t::const_iterator	io_it_end = \
+		this->_io_directive_parameters.end();
+	_io_directive_parameters_t::const_iterator	io_it = \
+		this->_io_directive_parameters.find(directive_name);
+	if (io_it == io_it_end)
+		return ("");
+	std::map<std::string, std::string>::const_iterator	it_end = \
+		io_it->second.end();
+	std::map<std::string, std::string>::const_iterator	it = \
+		io_it->second.find(input);
+	if (io_it == io_it_end)
+		return ("");
+	return (it->second);
+}
+
 BlockSimpleConfig::directive_parameters_t BlockSimpleConfig::getDirectiveParameters(std::string directive_name)
 {
 	_directive_parameters_map_t::const_iterator	it_end = \
 		this->_directive_parameters.end();
 	_directive_parameters_map_t::const_iterator	it = \
 		this->_directive_parameters.find(directive_name);
-	if (it != it_end)
+	if (it == it_end)
 	{
 		BlockSimpleConfig::directive_parameters_t	nothing;
 		return (nothing);
@@ -77,7 +100,7 @@ bool	BlockSimpleConfig::inDirectiveParameters(\
 	return (p_end != std::find(it->second.begin(), p_end, parameter));
 }
 
-int		BlockSimpleConfig::addDirective(Directive* directive)
+int		BlockSimpleConfig::_addDirective(Directive* directive)
 {
 	Directive::args_t	args = directive->getArgs();
 
@@ -88,20 +111,29 @@ int		BlockSimpleConfig::addDirective(Directive* directive)
 	std::string							name = *it;
 	if (name.empty())
 		return (1);
+	else if (!this->knownDirective(name))
+	{
+		std::cerr << "BlockSimpleConfig: unknown directive `" << name << "'" << std::endl; //
+		return (1);
+	}
+	// if ("error_page" == name)
+	// {
+	// 	std::string	output = args.back();
+	// 	Directive::args_t::const_iterator	it_io_end = it_end - 1;
+	// 	if ()
+	// 	while (it != it_end)
+	// 		parameters.push_back(*it++);
+	// }
 	directive_parameters_t				parameters;
 	++it;
 	while (it != it_end)
 		parameters.push_back(*it++);
 	// split function here
-	if (!this->knownDirective(name))
-	{
-		std::cerr << "BlockSimpleConfig: unknown directive `" << name << "'" << std::endl; //
-		return (1);
-	}
+
 	// TODO : check allowed
 	this->_directive_parameters[name] = parameters;
-	if ("error_page" == name)
-		return (this->_updateErrorPages(parameters));
+	// if ("error_page" == name)
+	// 	return (this->_updateErrorPages(parameters)); //
 	return (0);
 }
 

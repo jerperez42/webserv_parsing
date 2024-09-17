@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:29:48 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/13 15:56:00 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:26:33 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class ServerConfig : public BlockSimpleConfig
 		void			_pushSplitParameters(std::string name, std::string joined_string, char delimiter);
 		int				_evalListen(void);
 		int				_addLocation(BlockDirective* block_directive);
-		LocationConfig	&_returnLocation(const std::string &uri);
+		LocationConfig	&_returnLocation(const std::string &uri); //
 		void			_debug_print(void);
 		int				_fillAll(void);
 	public:
@@ -45,7 +45,8 @@ class ServerConfig : public BlockSimpleConfig
 
 		std::string	getFullPath(const std::string &decoded_uri, int location);
 		int			getLocation(const std::string &decoded_uri);
-		std::string	getCustomErrorPage(int location, int errorCode);
+		std::string	getDirectiveOutput(int location, std::string directive_name, std::string input);
+		std::string	getCustomErrorPage(int location, int errorCode); //
 		bool		serverCmp(std::string address, std::string port, std::string server_name="");
 
 	 	bool		inDirectives(int location, std::string directive_name);

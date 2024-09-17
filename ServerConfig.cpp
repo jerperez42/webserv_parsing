@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:29:48 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/13 15:57:22 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:28:19 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // 		bool		inDirectives(std::string, std::string);
 // 		std::string getDirectiveParameter(std::string, std::string);
 // 		bool		inDirectiveParameters(std::string, std::string, std::string);
-// 		int			addDirective(Directive*);
+// 		int			_addDirective(Directive*);
 // 		bool		fillDefault(void);
 // 	// 	std::string get_error_page(std::string request_uri, int error_code);
 // 	// 	bool get_autoindex_status(std::string request_uri);
@@ -156,6 +156,17 @@ std::string ServerConfig::getDirectiveParameter(int location, std::string direct
 	return (BlockSimpleConfig::getDirectiveParameter(directive_name));
 }
 
+std::string	ServerConfig::getDirectiveOutput(int location, std::string directive_name, std::string input)
+{
+	if (-1 != location)
+	{
+		LocationConfig	&lConfig = this->_locations[location];
+		if (lConfig.inIODirectives(directive_name)) // 
+			return (lConfig.getDirectiveOutput(directive_name, input));
+	}
+	return (BlockSimpleConfig::getDirectiveOutput(directive_name, input));
+}
+
 bool	ServerConfig::inDirectiveParameters(int location, std::string directive_name, std::string parameter)
 {
 	if (-1 != location)
@@ -214,7 +225,7 @@ int		ServerConfig::_addLocation(BlockDirective* block_directive)
 	{
 		if (PR_DIR_TYPE_SIMPLE != (*ite)->getType())
 			return (1);
-		else if (location.addDirective(*ite))
+		else if (location._addDirective(*ite))
 			return (1);
 	}
 	this->_locations.push_back(location); //vector not optimized
@@ -248,7 +259,7 @@ int	ServerConfig::addServer(Directive* unknown_directive)
 				return (1);
 			}
 		}
-		else if (addDirective(*ite))
+		else if (_addDirective(*ite))
 			return (1);
 	}
 	return (this->_fillAll());

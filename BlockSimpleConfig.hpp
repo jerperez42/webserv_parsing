@@ -6,7 +6,7 @@
 /*   By: jerperez <jerperez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:29:48 by jerperez          #+#    #+#             */
-/*   Updated: 2024/09/13 16:17:35 by jerperez         ###   ########.fr       */
+/*   Updated: 2024/09/17 10:28:22 by jerperez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ class BlockSimpleConfig
 		_io_directive_parameters_t		_io_directive_parameters;
 		void		_debug_print(void);
 		int			_updateErrorPages(directive_parameters_t &error_page_params);
+		int						_addDirective(Directive*);
 	public:
 		BlockSimpleConfig(void) : _knownDirectives(0) {};
 		bool					knownDirective(std::string directive_name);
 		bool					inDirectives(std::string directive_name);
+		bool					inIODirectives(std::string directive_name);
 		std::string 			getDirectiveParameter(std::string directive_name);
 		directive_parameters_t	getDirectiveParameters(std::string directive_name);
+		std::string 			getDirectiveOutput(std::string directive_name, std::string input);
 		bool					inDirectiveParameters(std::string directive_name, std::string parameter);
-		int						addDirective(Directive*);
 		void					setKnownDirectives(std::list<std::string> *knownDirectives);
 		std::string				getCustomErrorPage(int errorCode);
 };
